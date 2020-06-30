@@ -44,7 +44,7 @@ public class UserListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView = view.findViewById(R.id.swiprefreshing);
+        swipRefreshLayout = view.findViewById(R.id.swiprefreshing);
         pulldown = view.findViewById(R.id.pulldown);
         recyclerView = view.findViewById(R.id.rcview);
         arrow = view.findViewById(R.id.arrow);
