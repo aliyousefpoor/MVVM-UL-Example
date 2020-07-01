@@ -1,5 +1,6 @@
 package com.example.mvvmuserlist;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,6 +24,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -36,7 +43,6 @@ public class UserListFragment extends Fragment {
     private SwipeRefreshLayout swipRefreshLayout;
     private TextView pulldown;
     private ImageView arrow;
-
 
 
     @Nullable
@@ -81,7 +87,6 @@ public class UserListFragment extends Fragment {
         pulldown.setVisibility(View.GONE);
         arrow.setVisibility(View.GONE);
         swipRefreshLayout.setRefreshing(true);
-//        userListViewModel.getData();
         userListViewModel.getLoadingLiveData().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean loadingState) {
@@ -90,12 +95,11 @@ public class UserListFragment extends Fragment {
                     swipRefreshLayout.setRefreshing(true);
                     recyclerView.setVisibility(View.GONE);
                 } else {
-                    pulldown.setVisibility(View.VISIBLE);
+                    pulldown.setVisibility(View.GONE);
                     swipRefreshLayout.setRefreshing(false);
                     recyclerView.setVisibility(View.VISIBLE);
                 }
 
-                // Log.d(TAG, "onResponse: " + response.body().toString());
             }
         });
 
@@ -131,4 +135,5 @@ public class UserListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
     }
+
 }

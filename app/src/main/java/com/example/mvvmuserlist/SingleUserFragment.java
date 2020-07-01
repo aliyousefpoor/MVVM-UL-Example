@@ -16,6 +16,8 @@ import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 
+import java.io.Serializable;
+
 public class SingleUserFragment extends Fragment {
     TextView Name;
     TextView Family;
@@ -34,20 +36,17 @@ public class SingleUserFragment extends Fragment {
         View view = inflater.inflate(R.layout.single_row, container, false);
 
 
-        Bundle bundle = getArguments();
-        String first_name = getArguments().getString("FirstName");
-        String last_name = getArguments().getString("LastName");
-        String email = getArguments().getString("Email");
-        String avatar = getArguments().getString("Avatar");
+        Data data = getArguments().getParcelable("Data_key");
+
 
         Name = view.findViewById(R.id.name);
         Family = view.findViewById(R.id.family);
         Email = view.findViewById(R.id.emaill);
         Avatar = view.findViewById(R.id.avatarr);
-        Name.setText(first_name);
-        Family.setText(last_name);
-        Email.setText(email);
-        Glide.with(this).load(avatar).into(Avatar);
+        Name.setText(data.getFirstName());
+        Family.setText(data.getLastName());
+        Email.setText(data.getEmail());
+        Glide.with(this).load(data.getAvatar()).into(Avatar);
 
         Toast.makeText(getContext(), "Transaction Succesfull", Toast.LENGTH_LONG).show();
 

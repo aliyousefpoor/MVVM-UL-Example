@@ -1,11 +1,20 @@
 package com.example.mvvmuserlist;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -42,6 +51,7 @@ public class UserListViewModel extends ViewModel {
 
         return userLiveData;
     }
+
 
 
     public void getData() {

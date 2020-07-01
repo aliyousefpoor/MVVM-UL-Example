@@ -1,9 +1,14 @@
 package com.example.mvvmuserlist;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Data {
+import java.io.Serializable;
+
+public class Data implements Parcelable {
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -19,6 +24,30 @@ public class Data {
     @SerializedName("avatar")
     @Expose
     private String avatar;
+
+    protected Data(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        email = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+        avatar = in.readString();
+    }
+
+    public Data(Integer id,String firstName,String lastName,String email,String avatar){
+        this.id=id;
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.email=email;
+        this.avatar=avatar;
+    }
+
+    public Data() {
+
+    }
 
     public Integer getId() {
         return id;
@@ -60,5 +89,35 @@ public class Data {
         this.avatar = avatar;
     }
 
+    public static final Creator<Data> CREATOR = new Creator<Data>() {
+        @Override
+        public Data createFromParcel(Parcel in) {
+            return new Data(in);
+        }
 
+        @Override
+        public Data[] newArray(int size) {
+            return new Data[size];
+        }
+    };
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(id);
+        }
+        dest.writeString(email);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeString(avatar);
+    }
 }

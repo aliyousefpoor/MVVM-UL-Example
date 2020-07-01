@@ -1,6 +1,7 @@
 package com.example.mvvmuserlist;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,8 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -23,7 +28,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<ViewHolder> {
     Context context;
     FragmentManager fragmentManager;
 
-    public RecViewAdapter(List<Data> list,Context context , FragmentManager fragmentManager){
+    public RecViewAdapter(List<Data> list, Context context, FragmentManager fragmentManager) {
 
         this.list = list;
         this.context = context;
@@ -32,16 +37,16 @@ public class RecViewAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row,parent,false);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder,final int position){
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        id= list.get(position).getId();
+        id = list.get(position).getId();
         holder.first_name.setText(list.get(position).getFirstName());
         holder.last_name.setText(list.get(position).getLastName());
         holder.email.setText(list.get(position).getEmail());
@@ -54,29 +59,28 @@ public class RecViewAdapter extends RecyclerView.Adapter<ViewHolder> {
                 SingleUserFragment singleFragment = new SingleUserFragment();
 
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.framelayout,singleFragment).addToBackStack(null);
+                transaction.replace(R.id.framelayout, singleFragment).addToBackStack(null);
                 transaction.commit();
 
+
                 Bundle bundle = new Bundle();
-                bundle.putString("FirstName", String.valueOf(list.get(position).getFirstName()));
-                bundle.putString("LastName",String.valueOf(list.get(position).getLastName()));
-                bundle.putString("Email",String.valueOf(list.get(position).getEmail()));
-                bundle.putString("Avatar",String.valueOf(list.get(position).getAvatar()));
+                bundle.putParcelable("Data_key", list.get(position));
+
 
                 singleFragment.setArguments(bundle);
 
-                Log.d("ID",String.valueOf(id));
-                Log.d("Name",list.get(position).getFirstName());
-                Log.d("Family",list.get(position).getLastName());
-                Log.d("Email",list.get(position).getEmail());
-                Log.d("Image",list.get(position).getAvatar());
+                Log.d("ID", String.valueOf(id));
+                Log.d("Name", list.get(position).getFirstName());
+                Log.d("Family", list.get(position).getLastName());
+                Log.d("Email", list.get(position).getEmail());
+                Log.d("Image", list.get(position).getAvatar());
 
             }
         });
     }
 
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
         return list.size();
     }
 
